@@ -2,12 +2,16 @@ workflows:
   android-build:
     name: Android Build
     max_build_duration: 60
+    # instance_type omitted for free plan; CodeMagic will select a compatible Linux instance
     scripts:
-      - name: Navigate to project root
-        script: cd .
+      - name: Navigate to Android folder
+        # Change "mobile-app/android" to the correct path in your monorepo
+        script: cd mobile-app/android
+      - name: Make gradlew executable
+        script: chmod +x ./gradlew
       - name: Install dependencies
         script: ./gradlew dependencies
       - name: Build APK
         script: ./gradlew assembleDebug
     artifacts:
-      - build/outputs/**/*.apk
+      - mobile-app/android/app/build/outputs/**/*.apk
